@@ -9,25 +9,9 @@ def selectionsort(students):
         students[i],students[min]=students[min],students[i]
     
     return students
+    
 
 
-n=int(input("Enter number of students: "))
-students=[]
-
-for i in range(n):
-    name=input("Enter name of student "+str(i+1)+": ")
-    marks=int(input("Enter marks of "+name+": "))
-    students.append((name,marks))
-
-
-sorted_stud=selectionsort(students)
-
-print("Students ranking by marks(descending order): ")
-
-i=1
-for student in sorted_stud:
-    print("rank: ",str(i),student[0],"->",student[1],"marks")
-    i=i+1
 
 
 
@@ -59,23 +43,60 @@ def job_scheduling(jobs):
         
     return slots,total_profit
 
-n=int(input("Enter no of jobs: "))
-jobs=[]
 
-for i in range(n):
-    print("Enter job details for ",i+1)
-    job_id=input("Enter job_id: ")
-    deadline=int(input("Enter deadline: "))
-    profit=int(input("Enter profit: "))
-
-    jobs.append((job_id,deadline,profit))
-
-
-schedule,profit=job_scheduling(jobs)
-
-for i in range(len(schedule)):
-    print("Slot ",i+1,": ",schedule[i][0],"Profit = ",schedule[i][1])
-
-print("Total profit",profit)
 
     
+
+def run_selection():
+    n=int(input("Enter number of students: "))
+    students=[]
+
+    for i in range(n):
+        name=input("Enter name of student "+str(i+1)+": ")
+        marks=int(input("Enter marks of "+name+": "))
+        students.append((name,marks))
+
+
+    sorted_stud=selectionsort(students)
+
+    print("Students ranking by marks(descending order): ")
+
+    i=1
+    for student in sorted_stud:
+        print("rank: ",str(i),student[0],"->",student[1],"marks")
+        i=i+1
+    
+
+
+def run_job():
+    n=int(input("Enter no of jobs: "))
+    jobs=[]
+
+    for i in range(n):
+        print("Enter job details for ",i+1)
+        job_id=input("Enter job_id: ")
+        deadline=int(input("Enter deadline: "))
+        profit=int(input("Enter profit: "))
+
+        jobs.append((job_id,deadline,profit))
+
+
+    schedule,profit=job_scheduling(jobs)
+
+    for i in range(len(schedule)):
+        print("Slot ",i+1,": ",schedule[i][0],"Profit = ",schedule[i][1])
+
+    print("Total profit",profit)
+
+print("1.selection sort.\n2.job scheduling.\n3.exit")
+ch=int(input("Enter ch:"))
+while True:
+    if ch==1:
+        run_selection()
+        break
+    elif ch==2:
+        run_job()
+        break
+    elif ch==3:
+        break
+
