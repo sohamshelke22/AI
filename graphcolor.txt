@@ -1,0 +1,384 @@
+
+
+# Problem Statement:Implement Graph Coloring Problem using Constraint Satisfaction with Backtracking and Branch & Bound approach.
+
+# BEGINNING OF CODE
+
+
+# ---------------- GRAPH CLASS ----------------
+
+class Graph:
+
+    # Constructor
+    def __init__(self, vertices):
+
+        self.V = vertices
+
+        self.graph = []
+
+        i = 0
+
+        while i < vertices:
+
+            row = []
+
+            j = 0
+
+            while j < vertices:
+
+                row.append(0)
+
+                j += 1
+
+            self.graph.append(row)
+
+            i += 1
+
+
+    # ---------------- ADD EDGE ----------------
+
+    def add_edge(self, u, v):
+
+        self.graph[u][v] = 1
+        self.graph[v][u] = 1
+
+
+    # ---------------- CHECK SAFE COLOR ----------------
+
+    def is_safe(self, vertex, color, colors):
+
+        i = 0
+
+        while i < self.V:
+
+            # Adjacent vertex has same color
+            if self.graph[vertex][i] == 1 and colors[i] == color:
+                return False
+
+            i += 1
+
+        return True
+
+
+    # ---------------- GRAPH COLORING UTIL ----------------
+
+    def graph_coloring_util(self, vertex, m, colors):
+
+        # Base Case
+        if vertex == self.V:
+            return True
+
+        color = 1
+
+        while color <= m:
+
+            # Check safe
+            if self.is_safe(vertex, color, colors):
+
+                colors[vertex] = color
+
+                # Recursive call
+                if self.graph_coloring_util(vertex + 1, m, colors):
+                    return True
+
+                # Backtracking
+                colors[vertex] = 0
+
+            color += 1
+
+        return False
+
+
+    # ---------------- SOLVE GRAPH COLORING ----------------
+
+    def solve_graph_coloring(self, m):
+
+        colors = []
+
+        i = 0
+
+        while i < self.V:
+
+            colors.append(0)
+
+            i += 1
+
+        success = self.graph_coloring_util(0, m, colors)
+
+        if success:
+            return colors
+
+        return None
+
+
+    # ---------------- DISPLAY GRAPH ----------------
+
+    def display_graph(self):
+
+        print("\nAdjacency Matrix:\n")
+
+        i = 0
+
+        while i < self.V:
+
+            j = 0
+
+            while j < self.V:
+
+                print(self.graph[i][j], end=" ")
+
+                j += 1
+
+            print()
+
+            i += 1
+
+
+# ---------------- DISPLAY COLORS ----------------
+
+def display_colors(colors):
+
+    if colors is None:
+
+        print("\nNo Solution Exists!")
+
+        return
+
+    print("\nVertex Colors:\n")
+
+    i = 0
+
+    while i < len(colors):
+
+        print("Vertex", i, "-> Color", colors[i])
+
+        i += 1
+
+
+# ---------------- INTRO ----------------
+
+def intro():
+
+    print("\nGraph Coloring Problem")
+    print("Assign colors to graph vertices")
+    print("Such that adjacent vertices")
+    print("do not have same color.\n")
+
+
+# ---------------- MAIN FUNCTION ----------------
+
+def main():
+
+    graph = None
+    colors = None
+
+    while True:
+
+        print("\n" + "-" * 10 + " MAIN MENU " + "-" * 10)
+
+        print("1. Create Graph")
+        print("2. Add Edge")
+        print("3. Display Graph")
+        print("4. Solve Graph Coloring")
+        print("5. Display Colors")
+        print("6. Exit")
+
+        choice = input("Enter your choice: ")
+
+
+        # CREATE GRAPH
+        if choice == "1":
+
+            vertices = int(input("\nEnter number of vertices: "))
+
+            graph = Graph(vertices)
+
+            print("\nGraph Created Successfully!")
+
+
+        # ADD EDGE
+        elif choice == "2":
+
+            if graph is None:
+
+                print("\nPlease create graph first!")
+
+            else:
+
+                total = int(input("\nEnter total edges to add: "))
+
+                i = 0
+
+                while i < total:
+
+                    print("\nEDGE", i + 1)
+
+                    u = int(input("Enter first vertex: "))
+                    v = int(input("Enter second vertex: "))
+
+                    if u >= 0 and u < graph.V and v >= 0 and v < graph.V:
+
+                        graph.add_edge(u, v)
+
+                        print("Edge Added Successfully!")
+
+                    else:
+
+                        print("Invalid Vertex!")
+
+                    i += 1
+
+
+        # DISPLAY GRAPH
+        elif choice == "3":
+
+            if graph is None:
+
+                print("\nPlease create graph first!")
+
+            else:
+
+                graph.display_graph()
+
+
+        # SOLVE GRAPH COLORING
+        elif choice == "4":
+
+            if graph is None:
+
+                print("\nPlease create graph first!")
+
+            else:
+
+                m = int(input("\nEnter number of colors: "))
+
+                colors = graph.solve_graph_coloring(m)
+
+                if colors is not None:
+
+                    print("\nSolution Found Successfully!")
+
+                else:
+
+                    print("\nNo Solution Exists!")
+
+
+        # DISPLAY COLORS
+        elif choice == "5":
+
+            if colors is None:
+
+                print("\nNo coloring solution available!")
+
+            else:
+
+                display_colors(colors)
+
+
+        # EXIT
+        elif choice == "6":
+
+            print("\n## END OF PROGRAM ##")
+
+            break
+
+
+        # INVALID CHOICE
+        else:
+
+            print("\nInvalid Choice! Please try again.")
+
+
+# ---------------- DRIVER CODE ----------------
+
+intro()
+
+main()
+
+# END OF CODE
+
+
+
+Graph Coloring Problem
+Assign colors to graph vertices
+Such that adjacent vertices
+do not have same color.
+
+---------- MAIN MENU ----------
+1. Create Graph
+2. Add Edge
+3. Display Graph
+4. Solve Graph Coloring
+5. Display Colors
+6. Exit
+Enter your choice: 1
+
+Enter number of vertices: 4
+
+Graph Created Successfully!
+
+---------- MAIN MENU ----------
+Enter your choice: 2
+
+Enter total edges to add: 4
+
+EDGE 1
+Enter first vertex: 0
+Enter second vertex: 1
+Edge Added Successfully!
+
+EDGE 2
+Enter first vertex: 0
+Enter second vertex: 2
+Edge Added Successfully!
+
+EDGE 3
+Enter first vertex: 1
+Enter second vertex: 2
+Edge Added Successfully!
+
+EDGE 4
+Enter first vertex: 1
+Enter second vertex: 3
+Edge Added Successfully!
+
+---------- MAIN MENU ----------
+Enter your choice: 3
+
+Adjacency Matrix:
+
+0 1 1 0
+1 0 1 1
+1 1 0 0
+0 1 0 0
+
+---------- MAIN MENU ----------
+Enter your choice: 4
+
+Enter number of colors: 3
+
+Solution Found Successfully!
+
+---------- MAIN MENU ----------
+Enter your choice: 5
+
+Vertex Colors:
+
+Vertex 0 -> Color 1
+Vertex 1 -> Color 2
+Vertex 2 -> Color 3
+Vertex 3 -> Color 1
+
+---------- MAIN MENU ----------
+Enter your choice: 6
+
+## END OF PROGRAM ##
+
+    0(C1)
+   / \
+(C3)2   1(C2)
+       \
+        3(C1)
+
+
+Only 3 colors needed for 4 vertices ✅
